@@ -6,6 +6,17 @@ const Button = (props) => (
   </button>
 )
 
+const MostVotes = (props) => {
+  const index = props.votes.indexOf(Math.max(...props.votes))
+  // console.log('index of most votes', index)
+  return (
+    <div>
+      <div>{props.anecdotes[index]}</div>
+      <div>has {props.votes[index]} votes</div>
+    </div>
+  )
+}
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -17,17 +28,29 @@ const App = () => {
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients.',
     'The only way to go fast, is to go well.'
   ]
-   
   const [selected, setSelected] = useState(0)
-
+  const [votes, setVotes] = useState(new Array(anecdotes.length).fill(0))
+  
   const randomSelect = () => {
-    setSelected(Math.floor(Math.random() * anecdotes.length))
+    const tempSelected = Math.floor(Math.random() * anecdotes.length)
+    setSelected(tempSelected)
+  }
+
+  const vote = () => {
+    const copy = [...votes]
+    copy[selected] += 1
+    setVotes(copy)
   }
 
   return (
     <div>
+      <p style={{fontSize: '24px', fontWeight: 'bold'}}>Anecdote of the day</p>
       <div>{anecdotes[selected]}</div>
+      <div>has {votes[selected]} votes</div>
       <Button onClick={randomSelect} text ='next anecdote' />
+      <Button onClick={vote} text ='vote' />
+      <p style={{fontSize: '24px', fontWeight: 'bold'}}>Anecdote with most votes</p>
+      <MostVotes votes={votes} anecdotes={anecdotes} />
     </div>
   )
 }
