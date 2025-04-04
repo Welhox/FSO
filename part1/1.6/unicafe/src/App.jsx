@@ -9,6 +9,13 @@ const Button = (props) => (
 
 //statistics made into own component
 const Statistics = ({good, neutral, bad, total}) => {
+  if (total === 0)
+    return (
+      <div>
+      <p style={{fontSize: '24px', fontWeight: 'bold'}}>statistics</p>
+      <div>No feedback given</div>
+      </div>
+    )
   return (
   <div>
     <p style={{fontSize: '24px', fontWeight: 'bold'}}>statistics</p>
