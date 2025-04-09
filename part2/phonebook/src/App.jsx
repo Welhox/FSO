@@ -7,6 +7,20 @@ const Name = (props) => {
 )
 }
 
+
+
+// const Filter = (props) => {
+//   return (
+//     <div>
+//     filter shown with
+//     <input
+//       value={newFilter}
+//       onChange={handleFilterChange}
+//     />
+//     </div>
+//   )
+// }
+
 const App = () => {
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas', number: '040-123456', id: 1 },
