@@ -1,39 +1,9 @@
 {
   "persons": [
     {
-      "id": "da0d",
-      "name": "aaa",
-      "number": "123141414212"
-    },
-    {
-      "id": "7349",
-      "name": "casi",
-      "number": "132242215"
-    },
-    {
-      "id": "58d5",
-      "name": "xxx",
-      "number": "1233425"
-    },
-    {
-      "id": "50b5",
-      "name": "yyy",
-      "number": "12837914"
-    },
-    {
-      "id": "b3cf",
-      "name": "hola",
-      "number": "1234"
-    },
-    {
       "id": "cdbe",
       "name": "Dennis",
       "number": "12345"
-    },
-    {
-      "id": "c4d3",
-      "name": "sdfsdf",
-      "number": "123123"
     },
     {
       "id": "94a9",

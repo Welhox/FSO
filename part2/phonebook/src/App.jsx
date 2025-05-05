@@ -4,7 +4,7 @@ import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import personService from './services/persons'
 import Notification from './components/Notification'
-
+import ErrorMessage from './components/ErrorMessage'
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -18,6 +18,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [newFilter, setNewFilter] = useState('')
   const [infoMessage, setInfoMessage] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
   const filtered = persons.filter(person => person.name.toLowerCase().includes(newFilter.toLowerCase()))
   const handleFilterChange = (event) => (
     setNewFilter(event.target.value)
@@ -32,6 +33,13 @@ const App = () => {
     setTimeout(() => {
       setInfoMessage(null)
     }, 3000)
+  }
+
+  const handleErrorMessage = (message) => {
+    setErrorMessage(`${message}`)
+    setTimeout(() => {
+      setErrorMessage(null)
+    }, 4000)
   }
 
   const handleNumberChange = (event) => (
@@ -61,6 +69,9 @@ const App = () => {
             setNewNumber('')
             handleInfoMessage(`${returnedPerson.name} modified`)
           })
+          .catch(error => {
+            handleErrorMessage(`Information of ${oldPerson.name} has already been deleted`)
+          })
         }
         return;
       }
@@ -71,7 +82,11 @@ const App = () => {
       setNewName('')
       setNewNumber('')
       handleInfoMessage(`Added ${returnedPerson.name}`)
-    })}
+      })
+      .catch(error => {
+        handleErrorMessage(`Unable to add ${personObject.name} to the phonebook`)
+      })
+    }
   }
 
   const removePerson = (id) => {
@@ -88,9 +103,7 @@ const App = () => {
         }
       })
       .catch(error => {
-        alert(
-          `${person} already removed from server`
-        )
+        handleErrorMessage(`${person.name} already removed from the phonebook`)
       })
     }
   }
@@ -100,6 +113,7 @@ const App = () => {
     <div>
       <h1>Phonebook</h1>
       <Notification message={infoMessage} />
+      <ErrorMessage message={errorMessage} />
       <Filter filter={newFilter} onChange={handleFilterChange} />
       <h2>add a new</h2>
       <PersonForm 
