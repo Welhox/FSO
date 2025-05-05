@@ -1,9 +1,10 @@
 
 const Name = (props) => {
   return (
-  <div>
+  <div className='contact'>
     {props.name} 
     {props.number}
+    <>     </>
     <button onClick={props.removePerson}>{props.label}</button>
     </div>
 )

@@ -3,6 +3,8 @@ import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import personService from './services/persons'
+import Notification from './components/Notification'
+
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -15,6 +17,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newFilter, setNewFilter] = useState('')
+  const [infoMessage, setInfoMessage] = useState(null)
   const filtered = persons.filter(person => person.name.toLowerCase().includes(newFilter.toLowerCase()))
   const handleFilterChange = (event) => (
     setNewFilter(event.target.value)
@@ -23,6 +26,13 @@ const App = () => {
   const handleNameChange = (event) => (
     setNewName(event.target.value)
   )
+
+  const handleInfoMessage = (message) => {
+    setInfoMessage(`${message}`)
+    setTimeout(() => {
+      setInfoMessage(null)
+    }, 3000)
+  }
 
   const handleNumberChange = (event) => (
     setNewNumber(event.target.value)
@@ -49,6 +59,7 @@ const App = () => {
             setPersons(persons.map(person => person.id === returnedPerson.id ? returnedPerson : person ))
             setNewName('')
             setNewNumber('')
+            handleInfoMessage(`${returnedPerson.name} modified`)
           })
         }
         return;
@@ -59,6 +70,7 @@ const App = () => {
       setPersons(persons.concat(returnedPerson))
       setNewName('')
       setNewNumber('')
+      handleInfoMessage(`Added ${returnedPerson.name}`)
     })}
   }
 
@@ -72,6 +84,7 @@ const App = () => {
       .then(returnedPerson => {
         if (returnedPerson.id === person.id){
         setPersons(persons.filter(n => n.id !== person.id))
+        handleInfoMessage(`${returnedPerson.name} Deleted`)
         }
       })
       .catch(error => {
@@ -85,7 +98,8 @@ const App = () => {
 
   return (
     <div>
-      <h2>Phonebook</h2>
+      <h1>Phonebook</h1>
+      <Notification message={infoMessage} />
       <Filter filter={newFilter} onChange={handleFilterChange} />
       <h2>add a new</h2>
       <PersonForm 
