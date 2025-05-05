@@ -50,6 +50,27 @@ const App = () => {
     })}
   }
 
+  const removePerson = (id) => {
+    const person = persons.find(n => n.id === id)
+    const confirmed = window.confirm(`Delete ${person.name} ?`)
+    if (confirmed)
+    {      
+      personService
+      .remove(id)
+      .then(returnedPerson => {
+        if (returnedPerson.id === person.id){
+        setPersons(persons.filter(n => n.id !== person.id))
+        }
+      })
+      .catch(error => {
+        alert(
+          `${person} already removed from server`
+        )
+      })
+    }
+  }
+
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -63,7 +84,11 @@ const App = () => {
         handleNumberChange={handleNumberChange}
       />
       <h2>Numbers</h2>
-      <Persons filtered={filtered}/>
+      <Persons 
+      filtered={filtered}
+      label={"delete"}
+      removePerson={removePerson}
+      />
     </div>
   )
 }

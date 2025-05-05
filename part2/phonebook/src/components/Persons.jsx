@@ -1,15 +1,25 @@
 
 const Name = (props) => {
   return (
-  <div>{props.name} {props.number}</div>
+  <div>
+    {props.name} 
+    {props.number}
+    <button onClick={props.removePerson}>{props.label}</button>
+    </div>
 )
 }
 
-const Persons = ({filtered}) => {
+const Persons = ({filtered, label, removePerson}) => {
   return (
     <>
     {filtered.map(person =>
-      <Name key={person.id} name={person.name} number={person.number}/>)}
+      <Name 
+      key={person.id} 
+      name={person.name} 
+      number={person.number}
+      label={label}
+      removePerson={() => removePerson(person.id)}
+      />)}
     </>
   )
 }
