@@ -1,6 +1,17 @@
 import React, { useState, useEffect } from 'react'
+import getCity from '../services/weather'
 
 const Country = ({country}) => {
+	const [weather, setWeather] = useState(null)
+
+	useEffect(() => {
+		getCity.getCity(country)
+			.then(response => {
+				setWeather(response)
+			})
+	}, [country])
+	
+	if (weather && weather.main) { 
 	return (
 	  <div>
 		<h1>{country.name.common}</h1>
@@ -13,7 +24,16 @@ const Country = ({country}) => {
 		  )}
 		</ul>
 		<img src={country.flags.png} alt={country.flags.alt}/>
+		<h2>Weather in {country.capital}</h2>
+		<div>Temperature {weather.main.temp} Celsius</div>
+		<img src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}.png`} alt={weather.weather[0].description}/>
+		<div>Wind {weather.wind.speed} m/s</div>
 	  </div>
+	)
+	}
+	else
+	return (
+		<div>Loading...</div>
 	)
   }
 
@@ -30,7 +50,6 @@ const DisplayCountry = ({countries, filter}) => {
 
   const filtered = countries.filter(country => 
 	country.name.common.toLowerCase().includes(filter.toLowerCase()))
-
   if (showCountry) {
 	return (
 	  <Country 
