@@ -1,15 +1,15 @@
 {
-  "name": "notes",
+  "name": "phonebook_backend",
   "version": "1.0.0",
-  "description": "notes backend",
+  "description": "Backend for the phonebook frontend",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev" : "node --watch index.js",
+    "dev": "node --watch index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Casimir Lundberg",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "express": "^5.1.0"
   }
