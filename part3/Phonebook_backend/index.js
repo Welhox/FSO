@@ -30,7 +30,21 @@ app.get('/api/persons', (request, response) => {
 	response.json(contacts)
 })
 
+// app.get('/info', (request, response) => {
+// 	response.send(
+// 	`<div>Phonebook has info for ${contacts.length} people<div/>
+// 	<div><div/>
+// 	`)
+// })
 
+app.get('/info', (request, response) => {
+	const now = new Date();
+	response.send(
+		`Phonebook has info for ${contacts.length} people 
+		<br><br/>
+		${now.toString()}`
+	)
+})
 
 
 
