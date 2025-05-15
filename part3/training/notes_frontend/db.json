@@ -1,0 +1,29 @@
+{
+  "notes": [
+    {
+      "id": "2742",
+      "content": "hola",
+      "important": true
+    },
+    {
+      "id": "bac0",
+      "content": "dos",
+      "important": false
+    },
+    {
+      "id": "6ef7",
+      "content": "tres",
+      "important": false
+    },
+    {
+      "id": "4364",
+      "content": "mui importante",
+      "important": true
+    },
+    {
+      "id": "cc58",
+      "content": "not important",
+      "important": true
+    }
+  ]
+}
