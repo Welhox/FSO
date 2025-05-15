@@ -9,10 +9,13 @@ GET http://localhost:3001/api/persons/1
 DELETE http://localhost:3001/api/persons/2
 
 ###
-# POST http://localhost:3001/api/persons HTTP/1.1
-# content-type: application/json
 
-# {
-# 	"content": "Postman is good in testing backend",
-# 	"important": true
-# }
+POST http://localhost:3001/api/persons HTTP/1.1
+content-type: application/json
+
+{
+	"name": "Casimirri",
+	"number": "12345678"
+}
+
+###
