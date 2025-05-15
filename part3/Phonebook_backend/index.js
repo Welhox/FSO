@@ -3,14 +3,13 @@ const app = express()
 var morgan = require('morgan')
 
 app.use(express.json())
-app.use(morgan('tiny'))
 
 let persons = [
-    { 
-      id: "1",
-      name: "Arto Hellas", 
-      number: "040-123456"
-    },
+  { 
+    id: "1",
+    name: "Arto Hellas", 
+    number: "040-123456"
+  },
     { 
       id: "2",
       name: "Ada Lovelace", 
@@ -26,33 +25,41 @@ let persons = [
       name: "Mary Poppendieck", 
       number: "39-23-6423122"
     }
-]
+  ]
 
 
-app.post('/api/persons', (request, response) => {
-  const body = request.body
+  morgan.token('contact', req => {
+    return(JSON.stringify(req.body))
+  })
 
-  if (!body.name || !body.number) {
-    return response.status(400).json({
-      error: 'Missing information'
-    })
-  }
-  dupe = persons.find(person => person.name === body.name)
-  if (dupe){
-    return response.status(409).json({
-      error: 'name must be unique'
-    })
-  }
+  app.use(morgan(':method :url :status :res[content-length] - :response-time ms :contact'))
 
-  const person = {
-    name: body.name,
-    number: body.number,
-    id: String(Math.floor(Math.random() * 9999999))
-  }
-  persons = persons.concat(person)
+  app.post('/api/persons', (request, response) => {
+    const body = request.body
+    
+    if (!body.name || !body.number) {
+      return response.status(400).json({
+        error: 'Missing information'
+      })
+    }
+    dupe = persons.find(person => person.name === body.name)
+    if (dupe){
+      return response.status(409).json({
+        error: 'name must be unique'
+      })
+    }
+    
+    const person = {
+      name: body.name,
+      number: body.number,
+      id: String(Math.floor(Math.random() * 9999999))
+    }
+    persons = persons.concat(person)
+    
+    response.json(person)
+  })
 
-  response.json(person)
-})
+  // app.use(morgan('tiny'))
 
 app.get('/api/persons', (request, response) => {
 	response.json(persons)
