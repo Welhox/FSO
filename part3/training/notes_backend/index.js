@@ -1,4 +1,28 @@
+require('dotenv').config()
 const express = require('express')
+const Note = require('./models/note')
+// const mongoose = require('mongoose')
+
+// // DO NOT SAVE YOUR PASSWORD TO GITHUB!!
+// const password = process.argv[2]
+// const url = `mongodb+srv://fullstack:${password}@cluster0.lrrqyck.mongodb.net/test?retryWrites=true&w=majority&appName=Cluster0`
+// mongoose.set('strictQuery',false)
+// mongoose.connect(url)
+
+// const noteSchema = new mongoose.Schema({
+  //   content: String,
+  //   important: Boolean,
+  // })
+  
+// noteSchema.set('toJSON', {
+  //   transform: (document, returnedObject) => {
+    //     returnedObject.id = returnedObject._id.toString()
+    //     delete returnedObject._id
+    //     delete returnedObject.__v
+    //   }
+    // })
+    
+    // const Note = mongoose.model('Note', noteSchema)
 const app = express()
 
 app.use(express.static('dist'))
@@ -48,14 +72,13 @@ app.post('/api/notes', (request, response) => {
       error: 'content missing'
     })
   }
-  const note = {
+  const note = new Note({
     content: body.content,
     important: body.important || false,
-    id: generateId(),
-  }
-  notes = notes.concat(note)
-
-  response.json(note)
+  })
+  note.save().then(savedNote => {
+    response.json(savedNote)
+  })
 })
 
 app.get('/', (request, response) => {
@@ -63,17 +86,15 @@ app.get('/', (request, response) => {
   })
 
 app.get('/api/notes', (request, response) => {
-	response.json(notes)
+  Note.find({}).then(notes => {
+    response.json(notes)
+  })
 })
 
 app.get('/api/notes/:id', (request, response) => {
-  const id = request.params.id
-  const note = notes.find(note => note.id === id)
-  if (note) {
-    response.json(note)
-  } else {
-    response.status(404).send()
-  }
+  Note.findById(request.params.id).then(note => {
+      response.json(note)
+    }).catch(response.status(404).send())
 })
 
 app.delete('/api/notes/:id', (request, response) => {
@@ -88,7 +109,7 @@ const unknownEndpoint = (request, response) => {
 
 app.use(unknownEndpoint)
 
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT
 app.listen(PORT, () => {
 	console.log(`Server running on port ${PORT}`)
 })

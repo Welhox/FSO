@@ -6,6 +6,11 @@ POST http://localhost:3001/api/notes HTTP/1.1
 content-type: application/json
 
 {
-	"content": "Postman is good in testing backend",
+	"content": "Postmadfn is good in testing backend",
 	"important": true
 }
+
+###
+
+GET http://localhost:3001/api/notes/682c8b5e58f2da43223cd857
+content-type: application/json
